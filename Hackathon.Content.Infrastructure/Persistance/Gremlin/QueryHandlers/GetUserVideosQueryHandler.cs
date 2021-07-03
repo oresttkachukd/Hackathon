@@ -1,7 +1,5 @@
 ﻿using Gremlin.Net.Driver;
-using Gremlin.Net.Process.Traversal;
 using Hackathon.Content.Application.UseCases.GetUserVideos;
-using Hackathon.Content.Core;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,9 +17,16 @@ namespace Hackathon.Content.Infrastructure.Persistance.Gremlin.QueryHandlers
             _gremlinClient = gremlinClient;
         }
 
-        public Task<VideoDto[]> Handle(GetUserVideosQuery request, CancellationToken cancellationToken)
-        {            
-            return Task.FromResult(Array.Empty<VideoDto>());
+        public async Task<VideoDto[]> Handle(GetUserVideosQuery request, CancellationToken cancellationToken)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "userid", request.UserId },
+                { "priority", request.Priority }
+            };
+            var response = await _gremlinClient.SubmitAsync<dynamic>("g.V().has('user', 'id', userid).out('associates').valueMap()", parameters);
+           
+            return Array.Empty<VideoDto>();
         }
     }
 }
