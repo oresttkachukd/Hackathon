@@ -43,7 +43,7 @@ namespace Hackathon.Content.Infrastructure.Persistance.Gremlin.QueryHandlers
                 }                    
             }
 
-            return result;
+            return result.ToArray();
         }
     }
 }
