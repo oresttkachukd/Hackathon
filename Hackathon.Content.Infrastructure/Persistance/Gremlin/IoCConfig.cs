@@ -10,9 +10,13 @@ namespace Hackathon.Content.Infrastructure.Persistance.Gremlin
 {
     public static class IoCConfig
     {
-        private static List<string> OutOfTimeDataPopulationQueries = new List<string>()
+        private static List<string> OutOfTimeDataClearQueries = new List<string>()
         {
-            "g.V().drop();",
+            "g.V().drop()"
+        };
+
+        private static List<string> OutOfTimeDataPopuleQueries = new List<string>()
+        {            
             "g.addV('user').property('id', '1')",
             "g.addV('user').property('id', '2')",
             "g.addV('user').property('id', '3')",
@@ -190,7 +194,10 @@ namespace Hackathon.Content.Infrastructure.Persistance.Gremlin
                 connectionPoolSettings: connectionPoolSettings
             );
 
-            var initializationTasks = OutOfTimeDataPopulationQueries.Select(x => client.SubmitAsync(x));
+            var clearingTasks = OutOfTimeDataClearQueries.Select(x => client.SubmitAsync(x));
+            Task.WhenAll(clearingTasks).GetAwaiter().GetResult();            
+
+            var initializationTasks = OutOfTimeDataPopuleQueries.Select(x => client.SubmitAsync(x));
             Task.WhenAll(initializationTasks).GetAwaiter().GetResult();
 
             container.AddSingleton<IGremlinClient>(client);                

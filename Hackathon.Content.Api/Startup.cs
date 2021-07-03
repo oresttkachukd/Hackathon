@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using MediatR;
 using System.Reflection;
 using System.Linq;
+using Hackathon.Content.Infrastructure.Messaging.RabbitMq;
+using Hackathon.Content.Infrastructure.Behaviours;
 
 namespace Hackathon.Content.Api
 {
@@ -28,7 +30,11 @@ namespace Hackathon.Content.Api
                 .GetReferencedAssemblies()
                 .Select(Assembly.Load).ToArray());
 
+            services.AddMediatrBehaviours();
+
             services.AddGremlinPersistence(_configuration);
+
+            services.AddRabbitMqMessaging(_configuration);      
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
