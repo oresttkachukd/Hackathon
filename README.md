@@ -15,3 +15,7 @@ To run solution following instructions can be used:
 # Go into the folder with solution and run:
 $ docker-compose up
 ```
+
+## Notes
+
+RabbitMq has been integrated later and shouldn't be taken to the account.
