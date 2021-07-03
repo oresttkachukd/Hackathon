@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Hackathon.Content.Core\Hackathon.Content.Core.csproj" />
     <ProjectReference Include="..\Hackathon.Content.Application\Hackathon.Content.Application.csproj" />
+    <ProjectReference Include="..\Hackathon.Content.Core\Hackathon.Content.Core.csproj" />
   </ItemGroup>
 
 </Project>
