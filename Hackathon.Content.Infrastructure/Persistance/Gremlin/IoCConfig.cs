@@ -17,7 +17,7 @@ namespace Hackathon.Content.Infrastructure.Persistance.Gremlin
                 throw new Exception($"{nameof(GremlinSettings)} are not configured");
             }
 
-            container.AddSingleton<GremlinClient>(
+            container.AddSingleton(
                (serviceProvider) =>
                {
                    var gremlinServer = new GremlinServer(
@@ -43,10 +43,10 @@ namespace Hackathon.Content.Infrastructure.Persistance.Gremlin
                }
            );
 
-            container.AddSingleton<GraphTraversalSource>(
+            container.AddSingleton(
                 (serviceProvider) =>
                 {
-                    GremlinClient gremlinClient = serviceProvider.GetService<GremlinClient>();
+                    var gremlinClient = serviceProvider.GetService<GremlinClient>();
                     var driverRemoteConnection = new DriverRemoteConnection(gremlinClient, "g");
 
                     return AnonymousTraversalSource.Traversal().WithRemote(driverRemoteConnection);

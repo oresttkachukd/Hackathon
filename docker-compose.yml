@@ -6,3 +6,32 @@ services:
     build:
       context: .
       dockerfile: Hackathon.Content.Api/Dockerfile
+    depends_on:
+       - "gremlin-server"
+
+  gremlin-server:
+     image: tinkerpop/gremlin-server
+     ports:
+       - "8182:8182"
+     volumes: 
+    #   - hackathon-data:/data
+        - ./data/:/data/
+     #  - ./gremlin-server-neo4j/conf/gremlin-server-custom.yml:/gremlin-server/conf/gremlin-server-custom.yml
+     #  - ./gremlin-server-neo4j/conf/neo4j.properties:/gremlin-server/conf/neo4j.properties
+     #  - ./gremlin-server-neo4j/scripts/neo4j.groovy:/gremlin-server/scripts/neo4j.groovy    
+    
+  neo4j-server:
+     image: neo4j
+     environment:       
+       - NEO4J_AUTH=none
+     ports:
+       - "7474:7474" # HTTP
+       - "7687:7687" # Bolt
+     volumes:
+     #   - hackathon-data:/data
+     #   - ./neo4j/data:/data
+       - ./data/copy:/data/    
+
+volumes:
+  hackathon-data:
+     external: false

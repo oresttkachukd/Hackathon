@@ -1,6 +1,8 @@
-﻿namespace Hackathon.Content.Application.UseCases.GetUserVideoPaths
+﻿using MediatR;
+
+namespace Hackathon.Content.Application.UseCases.GetUserVideoPaths
 {
-    public class GetUserVideoPathsQuery
+    public class GetUserVideoPathsQuery : IRequest<VideoPathDto[]>
     {
         public int UserId { get; set; }
 
